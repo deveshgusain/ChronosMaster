@@ -1,12 +1,25 @@
 import React, { useState } from "react";
 
-export default function Task() {
-    const [name, setName] = useState();
-    const [time, setTime] = useState();
+import { useDispatch } from "react-redux";
+
+import { add, update } from "../features/task/taskSlice";
+
+export default function Task({ task, setIsTask }) {
+    const dispatch = useDispatch();
+
+    const [name, setName] = useState(task.name);
+    const [startTime, setStartTime] = useState(task.startTime);
+    const [endTime, setEndTime] = useState(task.endTime);
+
+    const onSubmit = (e) => {
+        e.preventDefault();
+        dispatch(add({ _id: task._id, name, startTime, endTime }));
+        setIsTask(false);
+    };
 
     return (
         <div>
-            <form action="">
+            <form onSubmit={onSubmit}>
                 <label for="name">Task Name: </label>
                 <input
                     type="text"
@@ -15,14 +28,22 @@ export default function Task() {
                     onChange={(e) => setName(e.target.value)}
                 />
                 <br />
-                <label for="time">Time: </label>
+                <label for="time">From: </label>
                 <input
                     type="time"
                     id="time"
-                    value={time}
-                    onChange={(e) => setTime(e.target.value)}
+                    value={startTime}
+                    onChange={(e) => setStartTime(e.target.value)}
+                />
+                <label for="time">To: </label>
+                <input
+                    type="time"
+                    id="time"
+                    value={endTime}
+                    onChange={(e) => setEndTime(e.target.value)}
                 />
                 <br />
+                <input type="submit" value="Save"></input>
             </form>
         </div>
     );
