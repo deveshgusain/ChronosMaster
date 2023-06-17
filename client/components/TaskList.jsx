@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 
 import Task from "./Task";
 
-export default function TaskList() {
+export default function TaskList({ handleBack }) {
     const [isTask, setIsTask] = useState(false);
 
     const tasks = useSelector((state) => state.tasks);
@@ -27,6 +27,7 @@ export default function TaskList() {
                 <Task task={selectedTask} setIsTask={setIsTask} />
             ) : (
                 <div>
+                    <button onClick={handleBack}>Back</button>
                     {Object.entries(tasks).map(([_id, task]) => (
                         <div key={_id}>
                             <h4>Task: {task.name}</h4>
